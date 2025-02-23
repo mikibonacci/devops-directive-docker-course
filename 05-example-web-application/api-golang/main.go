@@ -1,20 +1,20 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin" // to handle http requests
 
-	"api-golang/database"
+	"api-golang/database" // the one defined in this package, i.e. db.go
 )
 
+// setting up the db connection. Is executed before the main()
 func init() {
 	databaseUrl := os.Getenv("DATABASE_URL")
 	if databaseUrl == "" {
-		content, err := ioutil.ReadFile(os.Getenv("DATABASE_URL_FILE"))
+		content, err := os.ReadFile(os.Getenv("DATABASE_URL_FILE"))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -35,7 +35,7 @@ func main() {
 	r := gin.Default()
 	var tm time.Time
 
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) { // c *gin.Context is a common pattern in gin to define the context
 		tm = database.GetTime(c)
 		c.JSON(200, gin.H{
 			"api": "golang",

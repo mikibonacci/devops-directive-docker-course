@@ -1,3 +1,11 @@
+# To add:
+
+- fastapi with postgres: for now, only fastapi without db query
+- mongo db 
+- sql lite db
+
+read about databases here: https://sqlmodel.tiangolo.com/databases/
+
 # Sample web application
 
 ![](./readme-assets/app-screenshot.png)

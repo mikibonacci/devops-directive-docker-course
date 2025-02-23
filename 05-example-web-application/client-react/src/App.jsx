@@ -2,23 +2,24 @@ import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import axios from "axios";
+} from "@tanstack/react-query"; // for fetching, caching, and updating server state.
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools' // to debug React Query.
+import axios from "axios"; // to make HTTP requests.
 
-import './App.css'
+import './App.css' // styling.
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient(); // the query context.
 
 function CurrentTime(props) {
   const { isLoading, error, data, isFetching } = useQuery({
-    queryKey: [props.api],
-    queryFn: () =>
+    queryKey: [props.api], // API URL.
+    queryFn: () =>  // performs the http get request.
       axios
         .get(`${props.api}`)
         .then((res) => res.data),
   });
 
+  // conditional rendering
   if (isLoading) return `Loading ${props.api}... `;
 
   if (error) return "An error has occurred: " + error.message;
@@ -39,6 +40,7 @@ export function App() {
       <h1>Hey Team! 👋</h1>
       <CurrentTime api="/api/golang/"/>
       <CurrentTime api="/api/node/"/>
+      <CurrentTime api="/api/fastapi/"/>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

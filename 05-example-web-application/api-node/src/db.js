@@ -1,12 +1,12 @@
-const fs = require('fs');
+const fs = require('fs'); // for filesystem operations
 
-const { Pool } = require('pg');
+const { Pool } = require('pg'); // for postgres operations
 
 databaseUrl =
   process.env.DATABASE_URL ||
   fs.readFileSync(process.env.DATABASE_URL_FILE, 'utf8');
 
-const pool = new Pool({
+const pool = new Pool({ // manages a pool of client connections to the PostgreSQL
   connectionString: databaseUrl,
 });
 
@@ -22,7 +22,7 @@ const getDateTime = async () => {
   const client = await pool.connect();
   try {
     const res = await client.query('SELECT NOW() as now;');
-    return res.rows[0];
+    return res.rows[0]; // the first row of the result
   } catch (err) {
     console.log(err.stack);
   } finally {
@@ -30,4 +30,4 @@ const getDateTime = async () => {
   }
 };
 
-module.exports = { getDateTime };
+module.exports = { getDateTime }; // available for other files to import
