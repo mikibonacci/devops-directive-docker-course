@@ -31,7 +31,10 @@ docker-build-all:
 
 	docker build -t api-golang -f ${DOCKERFILE_DIR}/api-golang/Dockerfile.6 ${DOCKERCONTEXT_DIR}/api-golang/
 
+	docker build -t api-fastapi -f ${DOCKERCONTEXT_DIR}/api-fastapi/Dockerfile ${DOCKERCONTEXT_DIR}/api-fastapi/
+
 DATABASE_URL:=postgres://postgres:foobarbaz@db:5432/postgres
+DATABASE_PWD:=foobarbaz
 
 .PHONY: docker-run-all
 docker-run-all:
@@ -59,6 +62,7 @@ docker-run-all:
 		-e DATABASE_URL=${DATABASE_URL} \
 		-p 3000:3000 \
 		--restart unless-stopped \
+		--link db \ 
 		api-node
 
 	docker run -d \
@@ -68,6 +72,18 @@ docker-run-all:
 		-p 8080:8080 \
 		--restart unless-stopped \
 		api-golang
+
+	docker run -d \
+		--name api-fastapi \
+		--network my-network \
+		-e DATABASE_URL=${DATABASE_URL} \
+		-e DATABASE_PWD=${DATABASE_PWD} \
+		-p 8000:8000 \
+		--restart unless-stopped \
+		--link db \
+		api-fastapi
+
+	docker run -d 
 
 	docker run -d \
 		--name client-react-vite \

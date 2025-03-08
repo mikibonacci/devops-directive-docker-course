@@ -8,7 +8,15 @@ db_pwd = os.getenv('DATABASE_PWD', DEFAULT_DBINFO['password'])
 
 dsn = copy.deepcopy(DEFAULT_DBINFO)
 
-dsn['host'] = db_url
+# Parse the DATABASE_URL to extract host, port, user, and database
+if db_url:
+    from urllib.parse import urlparse
+    url = urlparse(db_url)
+    dsn['host'] = url.hostname
+    dsn['port'] = url.port
+    dsn['user'] = url.username
+    dsn['database'] = url.path[1:]  # Remove leading '/'
+
 dsn['password'] = db_pwd
 
 def setup_db(dsn = dsn):
