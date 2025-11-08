@@ -63,6 +63,28 @@ services:
     ports:
       - 8080:8080
     restart: unless-stopped
+  api-fastapi:
+        labels:
+          shipyard.route: '/api/fastapi/'
+          shipyard.route.rewrite: true
+        build:
+          context: ../05-example-web-application/api-fastapi/
+          dockerfile: ../../05-example-web-application/api-fastapi/Dockerfile
+        networks:
+          - frontend
+          - backend
+        environment:
+            - DATABASE_URL=postgres://postgres:foobarbaz@db:5432/postgres
+            - DATABASE_PWD=foobarbaz
+        ports:
+            - 8000:8000
+        restart: unless-stopped
+        links:
+            - db
+        image: api-fastapi
+        init: true
+        depends_on:
+          - db
   db:
     image: postgres:15.1-alpine
     volumes:

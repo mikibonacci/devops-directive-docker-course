@@ -21,6 +21,12 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/node/, ''),
         secure: false,
       },
+      '/api/fastapi': {
+        target: 'http://api-fastapi:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/fastapi/, ''),
+        secure: false,
+      },
     },
   },
 });

@@ -6,6 +6,7 @@ run-postgres:
 	@echo Starting postgres container
 	docker run \
 		--rm \
+		-e POSTGRES_USER=postgres \
 		-e POSTGRES_PASSWORD=foobarbaz \
 		-v pgdata:/var/lib/postgresql/data \
 		-p 5432:5432 \

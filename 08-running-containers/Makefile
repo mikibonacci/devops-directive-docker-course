@@ -62,7 +62,7 @@ docker-run-all:
 		-e DATABASE_URL=${DATABASE_URL} \
 		-p 3000:3000 \
 		--restart unless-stopped \
-		--link db \ 
+		--link db \
 		api-node
 
 	docker run -d \
@@ -82,8 +82,6 @@ docker-run-all:
 		--restart unless-stopped \
 		--link db \
 		api-fastapi
-
-	docker run -d 
 
 	docker run -d \
 		--name client-react-vite \
@@ -105,6 +103,7 @@ docker-stop:
 	-docker stop db
 	-docker stop api-node
 	-docker stop api-golang
+	-docker stop api-fastapi
 	-docker stop client-react-vite
 	-docker stop client-react-nginx
 
@@ -113,6 +112,7 @@ docker-rm:
 	-docker container rm db
 	-docker container rm api-node
 	-docker container rm api-golang
+	-docker container rm api-fastapi
 	-docker container rm client-react-vite
 	-docker container rm client-react-nginx
 	-docker network rm my-network
